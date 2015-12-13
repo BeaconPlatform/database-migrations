@@ -1,0 +1,20 @@
+machine:
+  php:
+    version: 5.6.14
+  services:
+    - mysql
+
+dependencies:
+  pre:
+    - cp .env.circleci .env
+
+test:
+  post:
+    - php artisan --no-ansi migrate
+    - php artisan --no-ansi db:seed
+
+deployment:
+  dev:
+    branch: develop
+    commands:
+      - curl -XPOST "https://beacon.deploybot.com/webhook/deploy?env_id=$deploybot_env_id&secret=$deploybot_secret&revision=$CIRCLE_SHA1"
