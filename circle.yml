@@ -8,10 +8,14 @@ dependencies:
   pre:
     - cp .env.circleci .env
 
+  post:
+    - php artisan key:generate
+
 test:
   post:
     - php artisan --no-ansi migrate
-    - php artisan --no-ansi db:seed
+    - php artisan --no-ansi migrate:rollback
+    - php artisan --no-ansi migrate --seed
 
 deployment:
   dev:
