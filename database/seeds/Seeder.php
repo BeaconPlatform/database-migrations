@@ -17,4 +17,9 @@ class Seeder extends IlluminateSeeder
         $this->database     = $databaseManager->connection();
         $this->faker        = $faker;
     }
+
+    public function run()
+    {
+        $this->call(PersonSeeder::class);
+    }
 }
